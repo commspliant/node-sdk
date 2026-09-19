@@ -59,5 +59,6 @@ Endpoint guides and SDK usage examples: [doc/README.md](doc/README.md)
 
 ## Links
 
+- [npm package](https://www.npmjs.com/package/@commspliant/node-sdk)
 - [Developer Portal](https://developer.commspliant.com/)
 - [About CommsPliant](https://commspliant.com/)

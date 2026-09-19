@@ -2,6 +2,17 @@
   "name": "@commspliant/node-sdk",
   "version": "0.1.0",
   "description": "Official CommsPliant Customer Integration API SDK for Node.js",
+  "author": "CommsPliant",
+  "license": "MIT",
+  "homepage": "https://developer.commspliant.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commspliant/node-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/commspliant/node-sdk/issues"
+  },
+  "keywords": ["commspliant", "api", "sdk", "templates", "rendering"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,11 +23,19 @@
     }
   },
   "files": [
-    "dist"
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/client.js",
+    "dist/client.d.ts",
+    "dist/errors.js",
+    "dist/errors.d.ts",
+    "dist/types.js",
+    "dist/types.d.ts"
   ],
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test dist/client.test.js"
+    "test": "npm run build && node --test dist/client.test.js",
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=18"
@@ -24,6 +43,5 @@
   "devDependencies": {
     "@types/node": "^22.10.0",
     "typescript": "^5.7.0"
-  },
-  "license": "MIT"
+  }
 }
