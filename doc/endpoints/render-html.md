@@ -45,9 +45,8 @@ Resolves an **approved** template version and returns rendered HTML as a streame
 
 ```typescript
 import { writeFile } from "node:fs/promises";
-import { CommsPliantClient } from "@commspliant/node-sdk"; // TODO: replace with real SDK import once published
+import { CommsPliantClient } from "@commspliant/node-sdk";
 
-// TODO: replace with real SDK call once published
 const client = new CommsPliantClient("ck_YOUR_API_KEY");
 
 const result = await client.renderHtml({
@@ -58,5 +57,5 @@ const result = await client.renderHtml({
   },
 });
 
-await writeFile("document.html", Buffer.from(await result.body.arrayBuffer()));
+await writeFile("document.html", result.body);
 ```

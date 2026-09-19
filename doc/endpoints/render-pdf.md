@@ -43,9 +43,8 @@ Same auth rules as `POST /api/v1/render/html`.
 
 ```typescript
 import { writeFile } from "node:fs/promises";
-import { CommsPliantClient } from "@commspliant/node-sdk"; // TODO: replace with real SDK import once published
+import { CommsPliantClient } from "@commspliant/node-sdk";
 
-// TODO: replace with real SDK call once published
 const client = new CommsPliantClient("ck_YOUR_API_KEY");
 
 const result = await client.renderPdf({
@@ -56,5 +55,5 @@ const result = await client.renderPdf({
   },
 });
 
-await writeFile("document.pdf", Buffer.from(await result.body.arrayBuffer()));
+await writeFile("document.pdf", result.body);
 ```
