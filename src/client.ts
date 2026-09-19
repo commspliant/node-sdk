@@ -39,9 +39,6 @@ export class CommsPliantClient {
       templateId: request.templateId,
       variables: request.variables,
     };
-    if (request.templateVersionId) {
-      payload.templateVersionId = request.templateVersionId;
-    }
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 {
   "name": "@commspliant/node-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Official CommsPliant Customer Integration API SDK for Node.js",
   "author": "CommsPliant",
   "license": "MIT",

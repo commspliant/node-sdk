@@ -8,7 +8,6 @@ export interface ClientOptions {
 
 export interface RenderRequest {
   templateId: string;
-  templateVersionId?: string;
   variables: Record<string, unknown>;
 }
 
