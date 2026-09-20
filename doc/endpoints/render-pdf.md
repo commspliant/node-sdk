@@ -16,8 +16,6 @@ Same auth rules as `POST /api/v1/render/html`.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
 | `templateId` | UUID string | Yes | Template to render (latest approved version is used) |
 | `variables` | object | Yes | Values for template placeholders |
 
@@ -32,7 +30,7 @@ Same auth rules as `POST /api/v1/render/html`.
 
 | Status | Meaning |
 |--------|---------|
-| 400 | Invalid request body or parameters |
+| 400 | Invalid request body or parameters. When required sample-data fields are missing from `variables`, includes `code: validation_failed` and `details.missingFields`. |
 | 401 | Missing or invalid API key |
 | 403 | Valid API key but missing `render.execute` permission |
 | 404 | Template not found or not visible in the key's organization |
@@ -40,21 +38,40 @@ Same auth rules as `POST /api/v1/render/html`.
 | 429 | Render quota exceeded |
 | 500 | Unexpected server error |
 
+### Missing required variables
+
+```json
+{
+  "error": "Required variables are missing",
+  "code": "validation_failed",
+  "details": {
+    "missingFields": ["firstName", "policies.0.endDate"]
+  }
+}
+```
+
 ## SDK example
 
 ```typescript
 import { writeFile } from "node:fs/promises";
-import { CommsPliantClient } from "@commspliant/node-sdk";
+import { APIError, CommsPliantClient } from "@commspliant/node-sdk";
 
 const client = new CommsPliantClient("ck_YOUR_API_KEY");
 
-const result = await client.renderPdf({
-  templateId: "550e8400-e29b-41d4-a716-446655440000",
-  variables: {
-    title: "Invoice",
-    amount: "99.00",
-  },
-});
+try {
+  const result = await client.renderPdf({
+    templateId: "550e8400-e29b-41d4-a716-446655440000",
+    variables: {
+      title: "Invoice",
+      amount: "99.00",
+    },
+  });
 
-await writeFile("document.pdf", result.body);
+  await writeFile("document.pdf", result.body);
+} catch (err) {
+  if (err instanceof APIError && err.code === "validation_failed") {
+    // err.details?.missingFields lists unsatisfied field paths
+  }
+  throw err;
+}
 ```
