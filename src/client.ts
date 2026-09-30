@@ -32,6 +32,34 @@ export class CommsPliantClient {
     return this.postRender("/api/v1/render/pdf", request);
   }
 
+  async submitRenderBatch(request: {
+    templateId: string;
+    purpose: "email" | "pdf" | "render_only";
+    items: { variables: Record<string, unknown> }[];
+    processBatchId?: string;
+    callbackUrl?: string;
+  }): Promise<{ processBatchId: string; batchId: string }> {
+    const response = await this.fetchImpl(`${this.baseUrl}/api/v1/render/batches`, {
+      method: "POST",
+      headers: this.jsonHeaders(),
+      body: JSON.stringify(request),
+    });
+    if (response.status !== 202) {
+      throw await parseAPIError(response);
+    }
+    return (await response.json()) as { processBatchId: string; batchId: string };
+  }
+
+  private jsonHeaders(): Record<string, string> {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (this.useBearerAuth) {
+      headers.Authorization = `Bearer ${this.apiKey}`;
+    } else {
+      headers["X-Api-Key"] = this.apiKey;
+    }
+    return headers;
+  }
+
   private async postRender(path: string, request: RenderRequest): Promise<RenderResult> {
     validateRenderRequest(request);
 
